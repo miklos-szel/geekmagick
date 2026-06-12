@@ -158,7 +158,8 @@ void setup() {
 
     DisplayManager::begin();
 
-    // Boot splash: Commodore logo instead of the old loading bar / RGB-flash / IP screen.
+    // Boot splash: logo baked into the firmware (scripts/mkbootlogo.sh regenerates it
+    // from any image) instead of the old loading bar / RGB-flash / IP screen.
     DisplayManager::drawSplash();
 
     wifiManager = new WiFiManager(configManager.getSSID(), configManager.getPassword(), AP_SSID, AP_PASSWORD);
