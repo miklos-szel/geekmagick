@@ -1,3 +1,23 @@
+A fork/clone of GeekMagic-Open-Firmware (PlatformIO, GPL-3.0) for the GeekMagic cube
+(HelloCubic Lite / SmallTV-Ultra, ESP8266 + ST7789 240×240), living at the repo root,
+plus media tooling in `scripts/` (notably `scripts/mkv2geekgif.sh`, which converts videos
+into GIFs that actually play on the device). Source videos and reference GIFs in the root
+are test assets.
+
+TL;DR
+ip: 192.168.4.1
+geekmagic - $str0ngPa$$w0rd is the default
+default token: my-secret-token
+default.gif - boot
+default_1.gif - loop
+mkv2geekgif.sh - convert a compatible gif from mp4 mkv
+rebuild: 
+```
+cd geekmagick
+scripts/build-with-docker.sh
+```
+
+
 # Geekmagic open firmware
 
 > This repo documents the LCD interface inside the **HelloCubic Lite** cube (ESP8266) from [GeekMagicClock](https://github.com/GeekMagicClock/HelloCubic-Lite)
