@@ -4,18 +4,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this workspace is
 
-Two things live here:
-
-1. **`mkv2geekgif.sh`** — converts videos (mkv/mp4/…) into GIFs that actually play on a
-   GeekMagic cube (HelloCubic Lite / SmallTV-Ultra, ESP8266 + ST7789 240×240). The source
-   videos and reference GIFs in the root are test assets.
-2. **`GeekMagic-Open-Firmware/`** — clone of the open firmware (PlatformIO, GPL-3.0) that
-   runs on the device. It is its own git repo; the outer directory is not.
+A fork/clone of GeekMagic-Open-Firmware (PlatformIO, GPL-3.0) for the GeekMagic cube
+(HelloCubic Lite / SmallTV-Ultra, ESP8266 + ST7789 240×240), living at the repo root,
+plus media tooling in `scripts/` (notably `scripts/mkv2geekgif.sh`, which converts videos
+into GIFs that actually play on the device). Source videos and reference GIFs in the root
+are test assets.
 
 ## Device GIF constraints (hard-won; violating these "freezes" or corrupts the screen)
 
-Derived from `GeekMagic-Open-Firmware/src/display/Gif.cpp` — read it before changing the
-GIF pipeline:
+Derived from `src/display/Gif.cpp` — read it before changing the GIF pipeline:
 
 - **No per-file time limit**: the firmware has no hard playback cutoff. Looping GIFs
   (`playGifFullScreen(path, 0)`) run indefinitely.
@@ -26,7 +23,7 @@ GIF pipeline:
   gifsicle must be `-O1` (never `-O2`/`-O3`, those add transparency). `--lossy` is safe.
 - ~10 fps plays smoothly; storage free space is ~1.5 MB, so keep files under that.
 
-`mkv2geekgif.sh input.mp4 [max_bytes] [start-end]` encodes all of this: 240×240
+`scripts/mkv2geekgif.sh input.mp4 [max_bytes] [start-end]` encodes all of this: 240×240
 force-scale, 10 fps, ≤24-color palette, no dither, auto size-fit ladder
 (raise `--lossy`, then shrink palette — never lowers fps, which would balloon the frame
 diffs), and prints firmware-compat warnings. Output is `input_N.gif` (auto-increment,
@@ -35,9 +32,9 @@ never overwrites). Requires `ffmpeg`, `gifsicle`, ImageMagick `identify`.
 Verify a GIF's device-compatibility with `gifsicle --info file.gif`: frame #0 full-canvas,
 all others partial rects, zero `transparent`, disposal `asis` only, `loop forever`.
 
-## Firmware (GeekMagic-Open-Firmware/)
+## Firmware
 
-All commands run from inside `GeekMagic-Open-Firmware/`.
+All commands run from the repo root.
 
 ```bash
 pio run                          # build firmware (env: esp12e)
@@ -80,4 +77,4 @@ image source — web UI, default config, bundled GIFs.
 
 Device peculiarity: display CS is tied to GND (always selected) and the backlight is
 active-LOW on GPIO 5; the cube's panel is mounted upside-down (rotation handled in
-firmware). Full hardware notes are in `GeekMagic-Open-Firmware/readme.md`.
+firmware). Full hardware notes are in `README.md`.
