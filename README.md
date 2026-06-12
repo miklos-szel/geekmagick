@@ -18,6 +18,19 @@
 - `scripts/mkv2geekgif.sh` — convert an mp4/mkv into a device-compatible GIF
 - Rebuild: `pio run && pio run --target buildfs` (or `./scripts/build-with-docker.sh`)
 
+### Custom boot logo
+
+The boot splash is baked into the firmware binary (no LittleFS space used). To replace it
+with any image (JPEG, PNG, ...):
+
+```bash
+scripts/mkbootlogo.sh photo.jpg   # regenerates include/display/BootLogo.h
+pio run                           # rebuild, then flash firmware.bin as usual
+```
+
+The image is aspect-fill resized and center-cropped to 240x240 RGB565. Requires
+ImageMagick and python3.
+
 ## Table of Contents
 
 - [Quick reference](#quick-reference)

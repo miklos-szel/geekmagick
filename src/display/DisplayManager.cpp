@@ -27,7 +27,7 @@
 #include "display/DisplayManager.h"
 #include "config/ConfigManager.h"
 #include "display/Gif.h"
-#include "display/C64Logo.h"
+#include "display/BootLogo.h"
 
 static Gif* g_gif = nullptr;
 
@@ -563,7 +563,8 @@ auto DisplayManager::setRotation(uint8_t rotation, String currentIP) -> void {
 }
 
 /**
- * @brief Draw the Commodore boot/idle splash (full-screen 240x240 RGB565 logo)
+ * @brief Draw the boot/idle splash (full-screen 240x240 RGB565 logo baked into the
+ *        firmware; regenerate include/display/BootLogo.h with scripts/mkbootlogo.sh)
  *
  * @return void
  */
@@ -577,7 +578,7 @@ auto DisplayManager::drawSplash() -> void {
     g_lcd.startWrite();
     g_lcd.writeAddrWindow(0, 0, LCD_W, LCD_H);
     for (int16_t row = 0; row < LCD_H; ++row) {
-        memcpy_P(rowBuf.data(), &C64_LOGO_RGB565[static_cast<size_t>(row) * LCD_W], LCD_W * sizeof(uint16_t));
+        memcpy_P(rowBuf.data(), &BOOT_LOGO_RGB565[static_cast<size_t>(row) * LCD_W], LCD_W * sizeof(uint16_t));
         g_lcd.writePixels(rowBuf.data(), LCD_W);
         yield();
     }

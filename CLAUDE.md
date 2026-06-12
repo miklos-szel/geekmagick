@@ -46,6 +46,9 @@ python3 test/webServerTest.py    # emulates the device API on localhost:8080 to 
                                  # the web UI (data/web/) without hardware
 ./scripts/openapi.sh             # regenerate swagger.yml from Api.cpp annotations
 ./scripts/install-githooks.sh    # enable the pio-check pre-commit hook
+./scripts/mkbootlogo.sh img.jpg  # regenerate include/display/BootLogo.h (boot splash,
+                                 # 240x240 RGB565 PROGMEM — baked into firmware.bin,
+                                 # uses no LittleFS space); rebuild with `pio run`
 ```
 
 CI (`.github/workflows/ci.yml`) runs ShellCheck on `scripts/`, `pio check`, then the
